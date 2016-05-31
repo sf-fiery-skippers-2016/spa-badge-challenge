@@ -31,6 +31,11 @@ if (input != undefined) {
   var elements = findElement(input);
 }
 return {
+
+  html: function(content){
+    return _this.element.innerHTML = content;
+  },
+
   hide: function(){
     var elements = _this.element;
     if (isCollection(elements)) {
