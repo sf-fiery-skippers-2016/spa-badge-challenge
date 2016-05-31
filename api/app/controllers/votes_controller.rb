@@ -4,6 +4,14 @@ class VotesController < ApplicationController
   def create
     check_if_badge_is_initialized
     create_a_vote_on(@badge)
+    response_hash = {
+      badge_id: @badge.id,
+      vote_total: @badge.votes.inject(0){|sum, vote| sum + vote}
+    }
+    respond_to do |format|
+      format.json {render :json => response_hash}
+    end
+
   end
 
   private
@@ -22,7 +30,7 @@ class VotesController < ApplicationController
     end
 
     def create_a_vote_on(badge)
-      unless session[:badge_id].include badge.id
+      unless session[:badge_id].include? badge.id
         badge.votes.create(vote_params[:value])
         session[:badge_id] << badge.id
       end
