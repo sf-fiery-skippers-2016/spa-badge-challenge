@@ -1,7 +1,10 @@
 $.ready(function(){
   loadPage();
+  // var studentsIndex = "<div class='student-names'><li id='{{id}}'><a href='student/{{id}}'>{{name}}</a></li></div>\n"
+  // var template = Handlebars.compile(studentsIndex);
+  // var context = {
 
-
+  // }
 
 
 
