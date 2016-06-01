@@ -3,7 +3,9 @@ gem 'rails', '4.2.5'
 gem 'rails-api'
 gem 'pg'
 gem 'rack-cors'
+gem 'active_model_serializers', '~> 0.10.0'
 group :development, :test do
   gem 'pry-rails'
   gem 'byebug'
+  gem 'faker'
 end
