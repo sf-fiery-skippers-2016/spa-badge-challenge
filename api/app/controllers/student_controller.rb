@@ -1,6 +1,12 @@
 class StudentController < ApplicationController
   def index
-    @student = Student.all
-    render json: @student
+    @students = Student.all
+    render json: @students
+  end
+
+  def show
+    student = Student.find(params[:id])
+    badge = student.badges
+    render json: badge
   end
 end

@@ -1,13 +1,5 @@
 $.ready(function(){
   loadPage();
-  // var studentsIndex = "<div class='student-names'><li id='{{id}}'><a href='student/{{id}}'>{{name}}</a></li></div>\n"
-  // var template = Handlebars.compile(studentsIndex);
-  // var context = {
-
-  // }
-
-
-
 
 
 
@@ -21,7 +13,6 @@ function loadPage(){
     url: backEnd+"student/index"
   }).then(function(response){
     getListData(response).then(function(listData){
-      // console.log(listData)
       $('#students').html(listData);
       bindListeners();
     })
@@ -30,30 +21,66 @@ function loadPage(){
   function getListData(obj){
     return new Promise(function(resolve, reject){
       var listData = "";
+      var template = Handlebars.compile(studentsIndex);
       var list = JSON.parse(obj);
-      list.forEach(function(student){"<div class='student-names'>"
-        listData += "<div class='student-names'><li id='"+student.id+"'><a href='student/"+student.id+"'>"+student.name+"</a></li></div>\n";
+      list.forEach(function(student){
+        var context = {
+          id: student.id,
+          name: student.name
+        }
+        var html = template(context)
+        listData += html;
       })
       resolve(listData);
     })
   }
 }
 
+var studentsIndex = partials().showStudent
+var studentBadges = partials().showStudentBadges
+
+function partials(){
+  return {
+    showStudent: "<div class='student-names'><li id='{{id}}'><a href='student/{{id}}'>{{name}}</a></li></div>\n"
+  };
+}
+
 function bindListeners(){
   $('a').on('click', function(e){
     e.preventDefault();
-    var clicked = this;
     location.hash = this.getAttribute('href');
-    showStudent(location.hash);
+    $('.boot-badges').getOutDisMoFuckinHouse();
+    showStudentBadges({
+      url: location.hash,
+      _this: this
+    });
+
   });
 }
 
-function showStudent(url){
+function createShowDiv(){
+
+}
+
+function showStudentBadges(obj){
   $.ajax({
-    url: backEnd+url.substring(1),
+    url: backEnd+obj.url.substring(1),
     method: 'GET'
   }).then(function(response){
-    console.log(response);
+    var student = JSON.parse(response)
+    console.log(student[0].phrase)
+    // adds parent div on click
+    var parentElement = document.createElement("DIV");
+    parentElement.className = "boot-badges"
+    for(var i = 0; i < student.length; i++){
+      var newElement = document.createElement("DIV");
+      newElement.className = "phrase-" + i
+      var text = document.createTextNode(student[i].phrase + "");
+      newElement.appendChild(text)
+      parentElement.appendChild(newElement)
+    }
+    obj._this.parentNode.appendChild(parentElement)
+
   })
 }
 
@@ -62,3 +89,5 @@ var backEnd = "http://localhost:3000/";
 var urlChange = function(){
   console.log(location.hash);
 }
+
+

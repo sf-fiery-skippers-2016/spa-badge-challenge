@@ -5,8 +5,8 @@ function miniQuery(input){
     }
   }
 
-  var isCollection = function(els){
-    if(els instanceof HTMLCollection){
+  var isCollection = function(element){
+    if(element instanceof HTMLCollection){
       return true
     } else{
       return false
@@ -98,7 +98,17 @@ return {
       }else{
         elements.dispatchEvent(event);
       }
+    },
 
+    getOutDisMoFuckinHouse: function(){
+      var elements = _this.element;
+      if (isCollection(elements)) {
+        for(var i = elements.length -1; i >= 0; i--){
+          elements[i].remove()
+        }
+      }else{
+        elements.remove();
+      }
     }
 
   }

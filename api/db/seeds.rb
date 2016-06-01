@@ -11,7 +11,7 @@
 end
 
 20.times do
-  Badge.create(student_id: rand(1..10), phrase: Faker::Hipster.words(4))
+  Badge.create(student_id: rand(1..10), phrase: Faker::Hipster.sentence)
 end
 
 20.times do
