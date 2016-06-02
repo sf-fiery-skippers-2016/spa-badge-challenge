@@ -32,8 +32,20 @@ if (input != undefined) {
 }
 return {
 
+  append: function(content, position = 'beforeend'){
+    var elements = _this.element;
+    if (isCollection(elements)) {
+      for(var i = elements.length -1; i >= 0; i--){
+        elements[i].insertAdjacentHTML(position, content)
+      }
+    }else{
+      elements.insertAdjacentHTML(position, content);
+    }
+  },
+
   html: function(content){
-    return _this.element.innerHTML = content;
+    var elements = _this.element;
+    return elements.innerHTML = content;
   },
 
   hide: function(){
@@ -80,7 +92,7 @@ return {
     on: function(listener, callback){
       var elements = _this.element;
       if (isCollection(elements)) {
-        for(var i = elements.length -1; i >= 0; i-- ){
+        for(var i = elements.length -1; i >= 0; i--){
           elements[i].addEventListener(listener, callback);
         }
       }else{
@@ -119,9 +131,11 @@ function $(input){
 }
 $.ajax = function(options){
   return new Promise( function(resolve, reject){
+    var dick = "username=shaun"
+    console.log(dick)
     var req = new XMLHttpRequest();
     req.open(options.method, options.url)
-    req.send()
+    req.send(dick)
     req.onload = function(){
       if (this.status >= 200 && this.status < 300){
         resolve(this.response)

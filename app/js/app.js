@@ -20,6 +20,7 @@ function loadPage(){
 
   function getListData(obj){
     return new Promise(function(resolve, reject){
+      var studentsIndex = partials().showStudent
       var listData = "";
       var template = Handlebars.compile(studentsIndex);
       var list = JSON.parse(obj);
@@ -36,12 +37,12 @@ function loadPage(){
   }
 }
 
-var studentsIndex = partials().showStudent
-var studentBadges = partials().showStudentBadges
 
 function partials(){
   return {
-    showStudent: "<div class='student-names'><li id='{{id}}'><a href='student/{{id}}'>{{name}}</a></li></div>\n"
+    showStudent: "<div class='student-names'><li id='{{id}}'><a href='student/{{id}}'>{{name}}</a></li></div>\n",
+
+    badgeForm: "<h3> Add a Badge: </h3><form id='add-badge' action='{{url}}' method='post'><input type='hidden' name='student_id' value='{{id}}' /><input type='text' name='content' /><input type='image' src='img/add_button.png' alt='Add Slogan' /></form>"
   };
 }
 
@@ -68,7 +69,7 @@ function showStudentBadges(obj){
     method: 'GET'
   }).then(function(response){
     var student = JSON.parse(response)
-    console.log(student[0].phrase)
+    console.log(student)
     // adds parent div on click
     var parentElement = document.createElement("DIV");
     parentElement.className = "boot-badges"
@@ -80,14 +81,34 @@ function showStudentBadges(obj){
       parentElement.appendChild(newElement)
     }
     obj._this.parentNode.appendChild(parentElement)
-
+    showBadgeForm()
+    createNewBadgeRequest()
   })
 }
-
-var backEnd = "http://localhost:3000/";
 
 var urlChange = function(){
   console.log(location.hash);
 }
 
+function showBadgeForm(){
+  var badgeForm = partials().badgeForm
+  var template = Handlebars.compile(badgeForm);
+  var context = {
+      id: location.hash.slice(-1),
+      url: backEnd+"badge/create/"
+    }
+  $('.boot-badges').append(template(context));
+}
 
+function createNewBadgeRequest(){
+  $('#add-badge').on('submit', function(e){
+    e.preventDefault();
+    var url = this.action;
+    var method = this.method;
+    var data = new FormData
+    data.append("username", "kristal")
+
+  })
+}
+
+var backEnd = "http://localhost:3000/";

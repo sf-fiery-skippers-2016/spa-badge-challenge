@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'badge/create'
+
   get 'student/index'
   resources :student
 
