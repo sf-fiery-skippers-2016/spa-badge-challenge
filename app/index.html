@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script src="js/app.js"></script>
+  <!-- <script src="js/miniQuery.js"></script> -->
   <title>SPABadge</title>
 </head>
 <body>
@@ -9,11 +12,35 @@
     <div class="logo">
       <h1> SPA Badge </h1>
     </div>
-    <h1> SF Teachers </h1>
-      <ul>
-        <li><a href="#">Walker</a></li>
-        <li><a href="sample-page.html">Sample Page (to see what the badges view should look like)</a></li>
+    <div id="teachers_div">
+      <h1 id="page_heading"> SF Teachers </h1>
+      <ul id="teacher_list">
+        <!--<li><a href="#">Walker</a></li>
+        <li><a href="sample-page.html">Sample Page (to see what the badges view should look like)</a></li>-->
       </ul>
+    </div>
+    <div id="teacher_div">
+
+      <!--This is the Handlebars template. -->
+      <!--Data will be inserted in its according place, replacing the brackets.-->
+      <script id="teacher-template" type="text/x-handlebars-template">
+        <h1>{{teacher.name}}</h1>
+        <p>My badges:</p>
+        {{#each badges}}
+          <p>{{phrase}}</p>
+        {{/each}}
+        <p>Add me some badge!</p>
+        <form id="add_badge_form" name="add_badge" action="/badges">
+          <input type="text" name="phrase">
+          <input type="hidden" name="teacher" value="{{teacher.id}}">
+          <input type="submit" value="Add Badge">
+        </form>
+      </script>
+
+      <!--The content from the Handlebars template will be displayed in here-->
+      <div class="content-placeholder"></div>
+
+    </div>
   </div>
 </body>
 </html>
